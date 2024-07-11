@@ -10,14 +10,16 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-import userIcon from '../../../../public/img/default-applicant.png'
+import userIcon from "../../../../public/img/default-applicant.png";
 import Image from "next/image";
 
 const navigation = [
   { name: "Home", href: "/home", current: true },
+  { name: "Posts", href: "/posts", current: false },
   // { name: "Team", href: "#", current: false },
   // { name: "Projects", href: "#", current: false },
 ];
@@ -28,8 +30,11 @@ function classNames(...classes: string[]) {
 
 export default function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const router = useRouter();
+  const pathname: string = usePathname();
 
-  const router = useRouter()
+  console.log(pathname);
+
   return (
     <Disclosure as="nav" className="bg-white border-b-2">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -66,9 +71,9 @@ export default function NavBar() {
                     href={item.href}
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
-                      item.current
+                      pathname.includes(item.href)
                         ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        : "text-gray-500  hover:bg-gray-200 hover:text-gray-700",
                       "rounded-md px-3 py-2 text-sm font-medium"
                     )}
                   >
@@ -108,21 +113,14 @@ export default function NavBar() {
                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                   >
                     <MenuItem>
-                      <a
-                        href="#"
+                      <Link
+                        href="/profile"
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                       >
                         Your Profile
-                      </a>
+                      </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
-                      >
-                        Settings
-                      </a>
-                    </MenuItem>
+
                     <MenuItem>
                       <a
                         href="#"
@@ -134,7 +132,10 @@ export default function NavBar() {
                   </MenuItems>
                 </Menu>
                 <div>
-                  <button className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-gray-700 hover:bg-gray-300">
+                  <button
+                    className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-gray-700 hover:bg-gray-300"
+                    onClick={() => router.push("/add-post")}
+                  >
                     <HiOutlinePencilSquare />
                     Post
                   </button>

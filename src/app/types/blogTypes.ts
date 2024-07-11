@@ -11,3 +11,10 @@ export type BlogPost = {
   blogImg?: string | StaticImageData;
   blogDate: string;
 };
+
+export type BlogFormData = {
+  coverPhoto: string | StaticImageData;
+  blogTitle: string;
+  blogContent: string;
+  blogTags: string[];
+};

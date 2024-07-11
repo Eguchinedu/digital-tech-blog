@@ -1,5 +1,6 @@
 "use client";
 
+import { BlogPost } from "@/app/types/blogTypes";
 import { PageLayout } from "@/app/Wrappers/PageLayout";
 import React, { useState } from "react";
 import { IoIosSearch } from "react-icons/io";
@@ -7,14 +8,10 @@ import author from "../../../../public/img/author.png";
 import chef from "../../../../public/img/chef.jpeg";
 
 import PostCard from "@/app/components/cards/PostCard";
-import { BlogPost } from "@/app/types/blogTypes";
-import Image from "next/image";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import Link from "next/link";
+import Pagination from "@/app/components/navigation/pagination";
+import { useRouter } from "next/navigation";
 
-
-
-const dashboard = () => {
+const PostPage = () => {
   const [search, setSearch] = useState<string>("");
 
   const [blogList, setBlogList] = useState<BlogPost[]>([
@@ -57,18 +54,84 @@ const dashboard = () => {
       blogDate: "2024-06-10T11:51:57.607Z",
       blogImg: chef,
     },
+    {
+      blogId: "4",
+      blogTitle: "10 best ways to improve your code",
+      blogDescription:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
+      blogTags: ["Marketing"],
+      blogUser: "Jane Foster",
+      blogUserImg: author,
+      blogUserId: "025",
+      blogDate: "2024-06-10T11:51:57.607Z",
+      blogImg: chef,
+    },
+    {
+      blogId: "5",
+      blogTitle: "Ui/Ux  beginner tooltips every novice designer should know",
+      blogDescription:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
+      blogTags: ["Design", "Ux design"],
+      blogUser: "Martha Smith",
+      blogUserImg: author,
+      blogUserId: "025",
+      blogDate: "2024-06-10T11:51:57.607Z",
+      blogImg: chef,
+    },
+    {
+      blogId: "6",
+      blogTitle: "New ways to implement redux store",
+      blogDescription:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
+      blogTags: ["Development"],
+      blogUser: "Prof scott",
+      blogUserImg: author,
+      blogUserId: "025",
+      blogDate: "2024-06-10T11:51:57.607Z",
+      blogImg: chef,
+    },
   ]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const postsPerPage = 4;
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = blogList.slice(indexOfFirstPost, indexOfLastPost);
+
+   const router = useRouter();
+
+   const handleNext = () => {
+    
+     const length = blogList.length;
+     const count = length - 1;
+     if (currentPage < count) {
+       setCurrentPage(currentPage + 1);
+       router.push(`/posts/${currentPage + 1}`);
+     } else {
+       setCurrentPage(1);
+     }
+   };
+
+   const handlePrevious = () => {
+    
+
+     if (currentPage > 0) {
+       setCurrentPage((prev) => prev - 1);
+       router.push(`/posts/${currentPage - 1}`);
+     } else {
+       setCurrentPage(0);
+     }
+   };
+
+
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   return (
     <PageLayout>
       <div className="min-h-screen">
         <div className="max-w-[1200px] m-auto h-full">
-          <div className=" py-24  flex justify-center items-center">
-            <div className="flex flex-col items-center justify-center gap-10">
-              <div>
-                <h3 className="text-5xl font-semibold text-gray-600">
-                  Welcome to DigiTech Blog
-                </h3>
-              </div>
+          <div className=" py-9  flex justify-center items-center">
+            <div className="flex items-center justify-center gap-10">
               <div>
                 <div className="bg-white border w-[500px] min-w-[full]  flex items-center gap-2.5 px-4 h-[56px] rounded-full">
                   <div>
@@ -94,21 +157,15 @@ const dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="py-9 h-full">
-            <div className="border-b-2 py-4 flex justify-between items-center">
-              <h3 className="text-xl text-gray-500 font-medium ">
-                Recent Posts
-              </h3>
-
-              <Link className="text-lg text-gray-500 font-medium flex items-center gap-3 cursor-pointer" href='/posts'>
-                View All <MdOutlineKeyboardArrowRight />{" "}
-              </Link>
+          <div className="py-3 h-full">
+            <div className="border-b-2 py-4">
+              <h3 className="text-xl text-gray-500 font-medium">All Posts</h3>
             </div>
             <div className="p-4">
-              {blogList.length > 0 ? (
+              {currentPosts.length > 0 ? (
                 <>
                   {" "}
-                  {blogList.map((blog: BlogPost) => (
+                  {currentPosts.map((blog: BlogPost) => (
                     <PostCard key={blog.blogId} props={blog} />
                   ))}
                 </>
@@ -127,6 +184,18 @@ const dashboard = () => {
                 </div>
               )}
             </div>
+            <div>
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={blogList.length}
+                paginate={paginate}
+                currentPage={currentPage}
+                indexOfFirstPost={indexOfFirstPost}
+                indexOfLastPost={indexOfLastPost}
+                handleNext={handleNext}
+                handlePrev={handlePrevious}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -134,4 +203,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default PostPage;

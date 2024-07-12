@@ -9,12 +9,12 @@ export default function AddPost() {
   return (
     <PageLayout>
       <div className="max-w-[1200px] m-auto h-full">
-        <div className="p-20">
+        <div className="md:p-20 px-6 py-20">
           <form className="">
             <div className="space-y-12">
               <div className="border-b border-gray-900/10 pb-12">
                 <h2 className="text-3xl font-semibold leading-7 text-gray-900">
-                 Post a Blog
+                  Post a Blog
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
                   Share your Thoughts with the world.
@@ -112,7 +112,6 @@ export default function AddPost() {
                         defaultValue={""}
                       />
                     </div>
-                    
                   </div>
                 </div>
               </div>

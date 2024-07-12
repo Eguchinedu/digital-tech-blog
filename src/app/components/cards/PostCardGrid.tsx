@@ -11,7 +11,7 @@ const PostCardGrid = ({ props }: { props: BlogPost }) => {
   const router = useRouter();
 
   return (
-    <div className="rounded-md h-[370px] max-w-[350px] flex flex-col bg-gray-100">
+    <div className="rounded-md h-[370px]  flex flex-col bg-gray-100 ">
       {props.blogImg ? (
         <div className="flex-shrink-0 overflow-hidden h-[100px]">
           <Image
@@ -55,7 +55,10 @@ const PostCardGrid = ({ props }: { props: BlogPost }) => {
           )}
         </p>
         <div className="mt-auto">
-          <button className="w-full border rounded-md border-gray-500 py-3">
+          <button
+            className="w-full border rounded-md border-gray-500 py-3"
+            onClick={() => router.push(`/home/${props.blogId}`)}
+          >
             Read More
           </button>
         </div>

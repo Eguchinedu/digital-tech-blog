@@ -17,10 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={urbanist.className}>
-     
+      <body
+        className={`${urbanist.className} ${
+          process.env.NODE_ENV === "development" ? "debug-screens" : ""
+        }`}
+      >
         {children}
-        </body>
+      </body>
     </html>
   );
 }

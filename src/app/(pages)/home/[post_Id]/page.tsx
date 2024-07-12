@@ -52,14 +52,14 @@ const CurrentPost = () => {
         blogPost={currentBlog}
       />
       <div className="max-w-[1100px] m-auto h-full pt-10 pb-10">
-        <div className="p-20">
+        <div className="md:p-20 px-6 py-10">
           <div className="flex justify-between items-center gap-3">
             <button
               className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-gray-700 hover:bg-gray-300"
               onClick={() => router.back()}
             >
               <IoCaretBackSharp fontSize={25} />
-              Back
+              <span className="hidden md:block">Back</span>
             </button>
             <div className="flex gap-3 items-center">
               <button
@@ -67,14 +67,14 @@ const CurrentPost = () => {
                 onClick={handleEditDelete}
               >
                 <HiOutlinePencilSquare fontSize={25} />
-                Edit
+                <span className="hidden md:block">Edit</span>
               </button>
               <button
                 className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-red-400 hover:bg-gray-300"
                 onClick={handleOpenDelete}
               >
                 <RiDeleteBin6Line fontSize={25} className="text-red-400" />
-                Delete
+                <span className="hidden md:block">Delete</span>
               </button>
             </div>
           </div>

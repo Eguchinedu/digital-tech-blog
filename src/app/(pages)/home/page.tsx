@@ -19,7 +19,7 @@ import PostCardList from "@/app/components/cards/PostCardList";
 import PostCardGrid from "@/app/components/cards/PostCardGrid";
 import { TbRuler } from "react-icons/tb";
 
-const dashboard = () => {
+const Home = () => {
   const [search, setSearch] = useState<string>("");
   const [isListOrientation, setIsListOrientation] = useState<Boolean>(true);
 
@@ -254,4 +254,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Home;

@@ -12,7 +12,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 type ModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  blogId: string;
+  blogId: string | string[];
 };
 
 export default function DeleteModal({ open, setOpen, blogId }: ModalProps) {

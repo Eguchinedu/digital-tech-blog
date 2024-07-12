@@ -51,13 +51,7 @@ const Pagination: React.FC<PaginationProps> = ({
         </p>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
-        {/* <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{indexOfFirstPost + 1}</span>{" "}
-            to <span className="font-medium">{indexOfLastPost}</span> of{" "}
-            <span className="font-medium">{totalPosts}</span> results
-          </p>
-        </div> */}
+       
         <div>
           <nav
             aria-label="Pagination"

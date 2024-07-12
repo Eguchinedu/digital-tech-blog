@@ -1,12 +1,20 @@
+
+
 import type { Metadata } from "next";
-import {  Urbanist } from "next/font/google";
+import { Urbanist } from "next/font/google";
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import MyApp from "./providers/reduxProvider";
+import ReduxProvider from "./providers/reduxProvider";
+import ToastProvider from "./providers/toastProvider";
+import { useEffect } from "react";
+
+
 
 const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Digital Tech Bolg",
+  title: "Digital Tech Blog",
   description: "digitaltech Blog",
 };
 
@@ -15,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -22,7 +31,11 @@ export default function RootLayout({
           process.env.NODE_ENV === "development" ? "debug-screens" : ""
         }`}
       >
-        {children}
+        <ReduxProvider>
+          <ToastProvider>
+            {children}
+            </ToastProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

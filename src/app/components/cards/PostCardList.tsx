@@ -17,44 +17,44 @@ const PostCardList = ({ props }: { props: BlogPost }) => {
     <div className="border-b-2 py-6 flex flex-col gap-3">
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center">
-          <div className="flex-shrink-0 overflow-hidden">
-            <Image
-              src={props.blogUserImg}
-              alt={props.blogTitle}
-              className="h-full w-full object-contain rounded-full"
-              height={30}
-              width={30}
-            />
-          </div>
+          {props?.user && (
+            <div className="flex-shrink-0 overflow-hidden">
+              <Image
+                src={props.user.profileUrl}
+                alt={props.user.firstName}
+                className="h-full w-full object-contain rounded-full"
+                height={30}
+                width={30}
+              />
+            </div>
+          )}
 
           <div className="flex  gap-3 items-center">
-            <h4 className="font-semibold text-gray-500 ">{props.blogUser}</h4>
+            <h4 className="font-semibold text-gray-500 capitalize ">{props?.user?.firstName} {props?.user?.lastName}</h4>
             <div className="w-1 h-1 rounded-full bg-black"></div>
-            <p>{dateFormat(props.blogDate, "mmm d, yyyy")}</p>
+            <p>{dateFormat(props?.createdAt, "mmm d, yyyy")}</p>
           </div>
         </div>
       </div>
       <div className="flex justify-between items-start ">
         <div className="max-w-[700px]">
           <h3 className=" text-lg md:text-3xl font-bold my-3">
-            {props.blogTitle}
+            {props?.title}
           </h3>
 
           <p className="text-sm text-gray-400 my-2 hidden md:block">
             {" "}
-            {truncateString(props.blogDescription, 300)}
-            {props.blogDescription.length > 50 && (
-              <span className="text-black  cursor-pointer font-bold">
-                ....
-              </span>
+            {truncateString(props?.content, 300)}
+            {props?.content?.length > 50 && (
+              <span className="text-black  cursor-pointer font-bold">....</span>
             )}
           </p>
         </div>
-        {props.blogImg ? (
+        {props.coverImgUrl ? (
           <div className="flex-shrink-0 overflow-hidden hidden md:block">
             <Image
-              src={props.blogImg}
-              alt={props.blogTitle}
+              src={props.coverImgUrl}
+              alt='coverImg'
               className="h-full w-full object-contain rounded-md"
               height={180}
               width={180}
@@ -63,13 +63,9 @@ const PostCardList = ({ props }: { props: BlogPost }) => {
         ) : null}
       </div>
       <div className="flex justify-between items-center">
-        {/* <ul className="grid grid-cols-4 *:rounded-full *:border *:px-2 gap-2 *:py-2 *:border-white *:text-sm *:bg-gray-200 whitespace-nowrap text-center *:font-semibold *w-fit *:cursor-pointer">
-          {props.blogTags.length > 0 &&
-            props.blogTags.map((tag, index) => <li key={index}>{tag}</li>)}
-        </ul> */}
         <button
           className="rounded-full border px-2 py-2 border-white text-sm bg-gray-200 whitespace-nowrap flex items-center justify-center font-semibold w-fit "
-          onClick={() => router.push(`/home/${props.blogId}`)}
+          onClick={() => router.push(`/home/${props.id}`)}
         >
           Read More
         </button>

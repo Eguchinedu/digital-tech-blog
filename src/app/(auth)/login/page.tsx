@@ -18,7 +18,7 @@ const Login = () => {
           className="object-cover h-full w-full max-h-screen"
         />
         <h5 className="absolute top-[50%]  text-6xl font-bold text-white">
-          DGS CONSULTING BLOG
+          DJS CONSULTING BLOG
         </h5>
       </div>
 
@@ -29,6 +29,11 @@ const Login = () => {
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             className="mx-auto h-10 w-auto"
           />
+          <div className=" max-[1100px]:inline-block hidden relative  bg-gradient-to-r from-purple-300 via-blue-400 to-black text-transparent text-center  font-extrabold bg-clip-text">
+            <h5 className=" text-5xl mt-4 font-bold text-center">
+              DJS CONSULTING BLOG
+            </h5>
+          </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
@@ -63,14 +68,7 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+               
               </div>
               <div className="mt-2">
                 <input
@@ -84,7 +82,7 @@ const Login = () => {
               </div>
             </div>
 
-            <div className='flex items-center justify-center'>
+            <div className="flex items-center justify-center">
               <button
                 type="submit"
                 className="flex w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

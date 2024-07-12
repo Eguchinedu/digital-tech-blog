@@ -9,7 +9,7 @@ import {
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-import { BlogFormData, BlogPost } from "@/app/types/blogTypes";
+import {  BlogPost } from "@/app/types/blogTypes";
 
 
 type ModalProps = {
@@ -20,11 +20,10 @@ type ModalProps = {
 
 export default function EditModal({ open, setOpen, blogPost}: ModalProps) {
 
-    const [editForm, setEditForm] = useState<BlogFormData>({
-        coverPhoto: blogPost.blogImg || '',
-        blogTitle: blogPost.blogTitle || '',
-        blogContent : blogPost.blogDescription || '',
-        blogTags : blogPost.blogTags || '',
+    const [editForm, setEditForm] = useState<BlogPost>({
+        coverImgUrl: blogPost.coverImgUrl || '',
+        title: blogPost.title || '',
+        content : blogPost.content || '',
     })
 
       const handleInputChange = (
@@ -105,7 +104,7 @@ export default function EditModal({ open, setOpen, blogPost}: ModalProps) {
                             id="blogTitle"
                             name="blogTitle"
                             type="text"
-                            value={editForm.blogTitle}
+                            value={editForm.title}
                             onChange={handleInputChange}
                             placeholder="e.g How to..."
                             autoComplete="username"
@@ -127,7 +126,7 @@ export default function EditModal({ open, setOpen, blogPost}: ModalProps) {
                         <textarea
                           id="blogContent"
                           name="blogContent"
-                          value={editForm.blogContent}
+                          value={editForm.content}
                           onChange={handleInputChange}
                           rows={5}
                           className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

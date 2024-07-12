@@ -13,7 +13,7 @@ const SignUp = () => {
           className="object-cover h-full w-full max-h-screen"
         />
         <h5 className="absolute top-[50%]  text-6xl font-bold text-white">
-          DGS CONSULTING BLOG
+          DJS CONSULTING BLOG
         </h5>
       </div>
 
@@ -24,6 +24,11 @@ const SignUp = () => {
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             className="mx-auto h-10 w-auto"
           />
+          <div className=" max-[1100px]:inline-block hidden relative  bg-gradient-to-r from-purple-300 via-blue-400 to-black text-transparent text-center  font-extrabold bg-clip-text">
+            <h5 className=" text-5xl mt-4 font-bold text-center">
+              DJS CONSULTING BLOG
+            </h5>
+          </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Register as a user
           </h2>
@@ -58,7 +63,6 @@ const SignUp = () => {
                 >
                   Password
                 </label>
-              
               </div>
               <div className="mt-2">
                 <input

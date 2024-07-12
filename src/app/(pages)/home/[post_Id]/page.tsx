@@ -6,7 +6,7 @@ import user from "../../../../../public/img/default-applicant.png";
 import Image from "next/image";
 import dateFormat, { masks } from "dateformat";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import DeleteModal from "@/app/components/modals/DeleteModal";
 import EditModal from "@/app/components/modals/EditModal";
 import author from "../../../../../public/img/author.png";
@@ -14,11 +14,18 @@ import chef from "../../../../../public/img/chef.jpeg";
 import { BlogPost } from "@/app/types/blogTypes";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoCaretBackSharp } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { selectIsLoggedIn } from "@/app/store/slices/AuthSlice";
 
 const CurrentPost = () => {
   const router = useRouter();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const { post_Id} = useParams();
+  const isLoggedIn = useSelector((state: RootState) => selectIsLoggedIn());
+
+  
 
   const handleOpenDelete = () => {
     setOpenDeleteModal((prev) => !prev);
@@ -27,24 +34,25 @@ const CurrentPost = () => {
     setOpenEditModal((prev) => !prev);
   };
   const [currentBlog, setCurrentBlog] = useState<BlogPost>({
-    blogId: "1",
-    blogTitle:
+    id: "1",
+    title:
       "8 Psychological-Based Design Hacks That will make you a better UX Designer",
-    blogDescription:
+    content:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-    blogTags: ["UX design", "Design"],
-    blogUser: "John Doe",
-    blogUserImg: author,
-    blogUserId: "024",
-    blogDate: "2024-06-10T11:51:57.607Z",
-    blogImg: chef,
+    user: {
+      firstName: "John",
+      lastName: "John",
+      profileUrl: author,
+    },
+    createdAt: "2024-06-10T11:51:57.607Z",
+    coverImgUrl: chef,
   });
   return (
     <PageLayout>
       <DeleteModal
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
-        blogId={currentBlog.blogId}
+        blogId={post_Id}
       />
       <EditModal
         open={openEditModal}
@@ -61,47 +69,51 @@ const CurrentPost = () => {
               <IoCaretBackSharp fontSize={25} />
               <span className="hidden md:block">Back</span>
             </button>
-            <div className="flex gap-3 items-center">
-              <button
-                className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-gray-700 hover:bg-gray-300"
-                onClick={handleEditDelete}
-              >
-                <HiOutlinePencilSquare fontSize={25} />
-                <span className="hidden md:block">Edit</span>
-              </button>
-              <button
-                className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-red-400 hover:bg-gray-300"
-                onClick={handleOpenDelete}
-              >
-                <RiDeleteBin6Line fontSize={25} className="text-red-400" />
-                <span className="hidden md:block">Delete</span>
-              </button>
-            </div>
+
+            {isLoggedIn && (
+              <div className="flex gap-3 items-center">
+                <button
+                  className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-gray-700 hover:bg-gray-300"
+                  onClick={handleEditDelete}
+                >
+                  <HiOutlinePencilSquare fontSize={25} />
+                  <span className="hidden md:block">Edit</span>
+                </button>
+                <button
+                  className="bg-transparent border flex items-center gap-2  px-4 py-2 rounded-md text-red-400 hover:bg-gray-300"
+                  onClick={handleOpenDelete}
+                >
+                  <RiDeleteBin6Line fontSize={25} className="text-red-400" />
+                  <span className="hidden md:block">Delete</span>
+                </button>
+              </div>
+            )}
           </div>
           <div className="flex flex-col items-start gap-2 border-b-2 py-7">
             <div>
-              <h3 className="text-3xl font-bold my-3">
-                {currentBlog.blogTitle}
-              </h3>
+              <h3 className="text-3xl font-bold my-3">{currentBlog.title}</h3>
             </div>
             <div className="flex  gap-2">
-              <div className="flex-shrink-0">
-                <Image
-                  src={currentBlog.blogUserImg}
-                  alt="user"
-                  className="h-10 w-10 rounded-full"
-                  height={10}
-                  width={10}
-                />
-              </div>
+              {currentBlog.user?.profileUrl && (
+                <div className="flex-shrink-0">
+                  <Image
+                    src={currentBlog.user?.profileUrl}
+                    alt="user"
+                    className="h-10 w-10 rounded-full"
+                    height={10}
+                    width={10}
+                  />
+                </div>
+              )}
+
               <div className="flex flex-col items-start">
                 <h4 className="font-semibold text-gray-500 ">
                   {" "}
-                  {currentBlog.blogUser}
+                  {currentBlog.user?.firstName} {currentBlog.user?.lastName}
                 </h4>
 
                 <p className="text-gray-500 text-sm">
-                  {dateFormat(currentBlog.blogDate, "mmm d, yyyy")}
+                  {dateFormat(currentBlog.createdAt, "mmm d, yyyy")}
                 </p>
               </div>
             </div>
@@ -109,11 +121,11 @@ const CurrentPost = () => {
 
           <div>
             <div className="flex-shrink-0 py-10">
-              {currentBlog.blogImg ? (
+              {currentBlog.coverImgUrl ? (
                 <Image
-                  src={currentBlog.blogImg}
+                  src={currentBlog.coverImgUrl}
                   alt="user"
-                  className="h-full w-full"
+                  className="h-full w-full object-contain"
                   height={50}
                   width={300}
                   priority

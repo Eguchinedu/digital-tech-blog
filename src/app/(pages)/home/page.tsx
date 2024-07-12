@@ -26,84 +26,88 @@ const Home = () => {
 
   const [blogList, setBlogList] = useState<BlogPost[]>([
     {
-      blogId: "1",
-      blogTitle:
+      id: "1",
+      title:
         "8 Psychological-Based Design Hacks That will make you a better UX Designer",
-      blogDescription:
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["UX design", "Design"],
-      blogUser: "John Doe",
-      blogUserImg: author,
-      blogUserId: "024",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "John",
+        lastName: "Doe",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
     {
-      blogId: "2",
-      blogTitle:
-        "10 ways to improve your code base and maximize your performance",
-      blogDescription:
+      id: "2",
+      title: "10 ways to improve your code base and maximize your performance",
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["Development", "Design"],
-      blogUser: "Michael Doe",
-      blogUserImg: author,
-      blogUserId: "023",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "Michael",
+        lastName: "Doe",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
     {
-      blogId: "3",
-      blogTitle:
-        "3 Psychological-Based Marketing Strategy Hacksyou need to know",
-      blogDescription:
+      id: "3",
+      title: "3 Psychological-Based Marketing Strategy Hacks you need to know",
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["Marketing"],
-      blogUser: "Jane Doe",
-      blogUserImg: author,
-      blogUserId: "025",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "Jane",
+        lastName: "Doe",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
     {
-      blogId: "4",
-      blogTitle: "10 best ways to improve your code",
-      blogDescription:
+      id: "4",
+      title: "10 best ways to improve your code",
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["Marketing"],
-      blogUser: "Jane Foster",
-      blogUserImg: author,
-      blogUserId: "025",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "Jane",
+        lastName: "Foster",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
     {
-      blogId: "5",
-      blogTitle: "Ui/Ux  beginner tooltips every novice designer should know",
-      blogDescription:
+      id: "5",
+      title: "UI/UX beginner tooltips every novice designer should know",
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["Design", "Ux design"],
-      blogUser: "Martha Smith",
-      blogUserImg: author,
-      blogUserId: "025",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "Martha",
+        lastName: "Smith",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
     {
-      blogId: "6",
-      blogTitle: "New ways to implement redux store",
-      blogDescription:
+      id: "6",
+      title: "New ways to implement redux store",
+      content:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      blogTags: ["Development"],
-      blogUser: "Prof scott",
-      blogUserImg: author,
-      blogUserId: "025",
-      blogDate: "2024-06-10T11:51:57.607Z",
-      blogImg: chef,
+      user: {
+        firstName: "Prof",
+        lastName: "Scott",
+        profileUrl: author,
+      },
+      createdAt: "2024-06-10T11:51:57.607Z",
+      coverImgUrl: chef,
     },
   ]);
 
   const filteredPosts = blogList.filter((blog: BlogPost) =>
-    blog.blogTitle.toLowerCase().includes(search.toLowerCase())
+    blog.title.toLowerCase().includes(search.toLowerCase())
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postsPerPage, setPostsPerPage] = useState<number>(4)
@@ -209,7 +213,7 @@ const Home = () => {
                 <>
                   {" "}
                   {currentPosts.map((blog: BlogPost) => (
-                    <div key={blog.blogId}>
+                    <div key={blog.id}>
                       {isListOrientation ? (
                         <PostCardList props={blog} />
                       ) : (

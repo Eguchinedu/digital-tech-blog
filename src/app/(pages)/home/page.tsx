@@ -6,16 +6,23 @@ import { IoIosSearch } from "react-icons/io";
 import author from "../../../../public/img/author.png";
 import chef from "../../../../public/img/chef.jpeg";
 
-import PostCard from "@/app/components/cards/PostCard";
+import PostCard from "@/app/components/cards/PostCardList";
 import { BlogPost } from "@/app/types/blogTypes";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Pagination from "@/app/components/navigation/pagination";
+import { LuListFilter } from "react-icons/lu";
+import { BsGrid } from "react-icons/bs";
+import PostCardList from "@/app/components/cards/PostCardList";
+import PostCardGrid from "@/app/components/cards/PostCardGrid";
+import { TbRuler } from "react-icons/tb";
 
 const dashboard = () => {
   const [search, setSearch] = useState<string>("");
+  const [isListOrientation, setIsListOrientation] = useState<Boolean>(true);
+
 
   const [blogList, setBlogList] = useState<BlogPost[]>([
     {
@@ -98,12 +105,13 @@ const dashboard = () => {
   const filteredPosts = blogList.filter((blog: BlogPost) =>
     blog.blogTitle.toLowerCase().includes(search.toLowerCase())
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [postsPerPage, setPostsPerPage] = useState<number>(4)
   useEffect(() => {
     setCurrentPage(1);
-    // Reset to first page when search changes
-  }, [search]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const postsPerPage = 4;
+   
+  }, [isListOrientation]);
+  
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -125,6 +133,11 @@ const dashboard = () => {
   };
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+
+    const handleOrientation = () => {
+      setIsListOrientation((prev) => !prev);
+    };
 
   return (
     <PageLayout>
@@ -163,15 +176,46 @@ const dashboard = () => {
             </div>
           </div>
           <div className="py-9 h-full">
-            <div className="border-b-2 py-4 flex justify-start items-center">
+            <div className="border-b-2 py-4 flex justify-between items-center">
               <h3 className="text-xl text-gray-500 font-medium ">Posts</h3>
+
+              <div className="lg:flex gap-2 hidden">
+                <div
+                  className={`w-[56px] h-full text-dpblack bg-blwhite rounded-lg flex items-center justify-center cursor-pointer focus:outline-none ${
+                    isListOrientation ? "opacity-30" : ""
+                  }`}
+                  onClick={() => setIsListOrientation(true)}
+                >
+                  <LuListFilter fontSize={24} />
+                </div>
+                <div
+                  className={`w-[56px] h-full text-dpblack bg-blwhite rounded-lg flex items-center justify-center cursor-pointer focus:outline-none ${
+                    !isListOrientation ? "opacity-30" : ""
+                  }`}
+                  onClick={() => setIsListOrientation(false)}
+                >
+                  <BsGrid fontSize={24} />
+                </div>
+              </div>
             </div>
-            <div className="p-4">
+            <div
+              className={`${
+                !isListOrientation
+                  ? `grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 2xl:grid-cols-4`
+                  : `flex flex-col gap-4 mt-8`
+              } mt-[34px] gap-4`}
+            >
               {currentPosts.length > 0 ? (
                 <>
                   {" "}
                   {currentPosts.map((blog: BlogPost) => (
-                    <PostCard key={blog.blogId} props={blog} />
+                    <div key={blog.blogId}>
+                      {isListOrientation ? (
+                        <PostCardList props={blog} />
+                      ) : (
+                        <PostCardGrid props={blog} />
+                      )}
+                    </div>
                   ))}
                 </>
               ) : (

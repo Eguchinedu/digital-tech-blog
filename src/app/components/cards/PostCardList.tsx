@@ -4,14 +4,10 @@ import { BlogPost } from "@/app/types/blogTypes";
 import Image from "next/image";
 import React, { useState } from "react";
 import dateFormat, { masks } from "dateformat";
-import { CiChat1, CiHeart } from "react-icons/ci";
-import { MdEdit, MdOutlineBookmarkAdd } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteModal from "../modals/DeleteModal";
-import EditModal from "../modals/EditModal";
+
 import { useRouter } from "next/navigation";
 
-const PostCard = ({ props }: { props: BlogPost }) => {
+const PostCardList = ({ props }: { props: BlogPost }) => {
   
 
     const router = useRouter()
@@ -21,13 +17,13 @@ const PostCard = ({ props }: { props: BlogPost }) => {
    
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center">
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 overflow-hidden">
             <Image
               src={props.blogUserImg}
               alt={props.blogTitle}
-              className="h-10 w-10 rounded-full"
-              height={10}
-              width={10}
+              className="h-full w-full object-contain rounded-full"
+              height={30}
+              width={30}
             />
           </div>
 
@@ -46,13 +42,13 @@ const PostCard = ({ props }: { props: BlogPost }) => {
           <p className="text-sm text-gray-400 my-2">{props.blogDescription}</p>
         </div>
         {props.blogImg ? (
-          <div className="">
+          <div className="flex-shrink-0 overflow-hidden">
             <Image
               src={props.blogImg}
               alt={props.blogTitle}
-              className="h-40 w-60 rounded-md"
-              height={40}
-              width={60}
+              className="h-full w-full object-contain rounded-md"
+              height={180}
+              width={180}
             />
           </div>
         ) : null}
@@ -68,4 +64,4 @@ const PostCard = ({ props }: { props: BlogPost }) => {
   );
 };
 
-export default PostCard;
+export default PostCardList;

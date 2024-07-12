@@ -38,7 +38,7 @@ export default function NavBar() {
   return (
     <Disclosure
       as="nav"
-      className="bg-indigo-500 border-b-2 fixed top-0 left-0 right-0 "
+      className="bg-indigo-500 border-b-2 fixed top-0 left-0 right-0 z-40"
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -62,7 +62,7 @@ export default function NavBar() {
             <div className="flex flex-shrink-0 items-center">
               <Link href="/home" className="cursor-pointer">
                 <img
-                  alt="Your Company"
+                  alt="logo"
                   src="https://tailwindui.com/img/logos/mark.svg?color=white&shade="
                   className="h-8 w-auto "
                 />

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { BlogPost } from "@/app/types/blogTypes";
 import Image from "next/image";
@@ -7,22 +7,32 @@ import dateFormat, { masks } from "dateformat";
 
 import { useRouter } from "next/navigation";
 import { truncateString } from "@/app/helpers/truncate";
+import user from "../../../../public/img/default-applicant.png";
+import bg from "../../../../public/img/bg-default.jpg";
 
 const PostCardList = ({ props }: { props: BlogPost }) => {
-  
-
-    const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="border-b-2 py-6 flex flex-col gap-3">
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center">
-          {props?.user && (
+          {props?.user ? (
             <div className="flex-shrink-0 overflow-hidden">
               <Image
-                src={props.user.profileUrl}
-                alt={props.user.firstName}
-                className="h-full w-full object-contain rounded-full"
+                src={props.user.profileUrl || user}
+                alt={props.title}
+                className="h-full w-full object-cover rounded-full"
+                height={30}
+                width={30}
+              />
+            </div>
+          ) : (
+            <div className="flex-shrink-0 overflow-hidden">
+              <Image
+                src={user}
+                alt={props.title}
+                className="h-full w-full object-cover rounded-full"
                 height={30}
                 width={30}
               />
@@ -30,7 +40,9 @@ const PostCardList = ({ props }: { props: BlogPost }) => {
           )}
 
           <div className="flex  gap-3 items-center">
-            <h4 className="font-semibold text-gray-500 capitalize ">{props?.user?.firstName} {props?.user?.lastName}</h4>
+            <h4 className="font-semibold text-gray-500 capitalize ">
+              {props?.user?.email || "user@gmail.com"}
+            </h4>
             <div className="w-1 h-1 rounded-full bg-black"></div>
             <p>{dateFormat(props?.createdAt, "mmm d, yyyy")}</p>
           </div>
@@ -52,15 +64,29 @@ const PostCardList = ({ props }: { props: BlogPost }) => {
         </div>
         {props.coverImgUrl ? (
           <div className="flex-shrink-0 overflow-hidden hidden md:block">
-            <Image
-              src={props.coverImgUrl}
-              alt='coverImg'
-              className="h-full w-full object-contain rounded-md"
-              height={180}
-              width={180}
-            />
+            <div className="h-41 w-41">
+              <Image
+                src={props.coverImgUrl}
+                alt="coverImg"
+                className="h-full w-full object-cover rounded-md"
+                height={180}
+                width={180}
+              />
+            </div>
           </div>
-        ) : null}
+        ) : (
+          <div className="flex-shrink-0 overflow-hidden hidden md:block">
+            <div className="h-41 w-41">
+              <Image
+                src={bg}
+                alt="coverImg"
+                className="h-full w-full object-cover rounded-md"
+                height={180}
+                width={180}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex justify-between items-center">
         <button

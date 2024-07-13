@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { BlogPost } from "@/app/types/blogTypes";
+import { BlogForm, BlogPost } from "@/app/types/blogTypes";
 
 interface InitialState {
   allPosts: BlogPost[];
-  postForm: BlogPost;
+  postForm: BlogForm;
+  currentPost : BlogPost;
 }
 
 const initialState: InitialState = {
@@ -12,6 +13,18 @@ const initialState: InitialState = {
     title: "",
     content: "",
     coverImgUrl: "",
+    coverImageName: "",
+  },
+  currentPost : {
+    content: "",
+    coverImgUrl: "",
+    id : "",
+    title: "",
+    createdAt: "",
+    user : {
+      email: "",
+      profileUrl: "",
+    }
   },
 };
 
@@ -19,19 +32,26 @@ const PostSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    setPostTitle: (state: InitialState, payload: PayloadAction<string>) => {
-      state.postForm.title = payload.payload;
+    setPostTitle: (state: InitialState, {payload}: PayloadAction<string>) => {
+      state.postForm.title = payload;
     },
-    setPostContent: (state: InitialState, payload: PayloadAction<string>) => {
-      state.postForm.content = payload.payload;
+    setPostContent: (state: InitialState, {payload}: PayloadAction<string>) => {
+      state.postForm.content = payload;
     },
-    setPostCoverImg: (state: InitialState, payload: PayloadAction<string>) => {
-      state.postForm.coverImgUrl = payload.payload;
+    setPostCoverImg: (state: InitialState, {payload}: PayloadAction<string>) => {
+      state.postForm.coverImgUrl = payload;
+    },
+    setPostCoverImgName: (state: InitialState, {payload}: PayloadAction<string>) => {
+      state.postForm.coverImageName = payload;
+    },
+    setCurrentPost: (state: InitialState, {payload}: PayloadAction<BlogPost>) => {
+      state.currentPost = payload;
     },
     clearPostForm(state) {
       state.postForm.title = "";
       state.postForm.content = "";
       state.postForm.coverImgUrl = "";
+      state.postForm.coverImageName = "";
     },
     setAllPost: (state: InitialState, payload: PayloadAction<BlogPost[]>) => {
       state.allPosts = payload.payload;
@@ -44,6 +64,8 @@ export const {
   setPostContent,
   setPostCoverImg,
   setPostTitle,
+  setPostCoverImgName,
+  setCurrentPost
 } = PostSlice.actions;
 
 

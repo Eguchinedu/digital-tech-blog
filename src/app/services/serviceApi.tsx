@@ -1,6 +1,7 @@
 
 import axios, { AxiosInstance } from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 export const baseURL = process.env.NEXT_PUBLIC_APP_API_URL;
 
@@ -16,8 +17,11 @@ const axiosClient: AxiosInstance = axios.create(axiosConfig);
 
 class ServiceApi {
   public url = baseURL;
+ 
+  
 
   appendToURL(url: string) {
+    
     return `${this.url}${url}`;
   }
 
@@ -57,6 +61,8 @@ class ServiceApi {
   }
 
   async post(url: string, data: any) {
+
+    
     try {
       const response = await axiosClient.post(
         this.appendToURL(url),
@@ -96,20 +102,26 @@ class ServiceApi {
 
   isSuccessful(response: any): boolean {
     const codes = [200, 201, 202, 204];
+    console.log(response?.response?.data?.statusCode);
     if (
       !codes.includes(
-        response?.status || response?.statusCode || response?.code
+        response?.status ||
+          response?.statusCode ||
+          response?.code ||
+          response?.response?.data?.statusCode
       )
-    )
-    {
-    //   if (Array.isArray(response?.response?.data?.message.length)) {
-    //     toast.error(response?.response?.data?.message[0]);
-    //   } else {
-    //     toast.error(response?.response?.data?.message);
-    //   }
+    ) {
+        if (Array.isArray(response?.response?.data?.message.length)) {
+          // toast.error(response?.response?.data?.message[0]);
+        } else {
+          toast.error(response?.response?.data?.message);
+        }
     }
     return codes.includes(
-      response?.status || response?.statusCode || response?.code
+      response?.status ||
+        response?.statusCode ||
+        response?.code ||
+        response?.response?.data?.statusCode
     )
       ? true
       : false;

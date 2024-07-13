@@ -15,17 +15,17 @@ type PageLayoutProps = {
 export const PageLayout = ({ children }: PageLayoutProps) => {
   useEffect(() => {
     const message = Cookies.get("redirectMessage");
-    console.log(message);
+  
     
     if (message) {
       toast.error(message);
-      Cookies.remove("redirectMessage", { path: "/" });
+      Cookies.remove("redirectMessage", { path: "/home" });
     }
   }, []);
   return (
     <>
       <NavBar />
-      <div>{children}</div>
+      {children}
       <Footer />
     </>
   );

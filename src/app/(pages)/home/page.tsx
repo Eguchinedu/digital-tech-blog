@@ -18,104 +18,34 @@ import { BsGrid } from "react-icons/bs";
 import PostCardList from "@/app/components/cards/PostCardList";
 import PostCardGrid from "@/app/components/cards/PostCardGrid";
 import { TbRuler } from "react-icons/tb";
+import { usePostActions } from "@/app/helpers/postHelpers";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
+import { PiSpinnerGapBold } from "react-icons/pi";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { isLoading, getAllPosts } = usePostActions();
   const [search, setSearch] = useState<string>("");
   const [isListOrientation, setIsListOrientation] = useState<Boolean>(true);
+  const posts = useSelector((state: RootState) => state.Post.allPosts);
 
 
-  const [blogList, setBlogList] = useState<BlogPost[]>([
-    {
-      id: "1",
-      title:
-        "8 Psychological-Based Design Hacks That will make you a better UX Designer",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "John",
-        lastName: "Doe",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-    {
-      id: "2",
-      title: "10 ways to improve your code base and maximize your performance",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "Michael",
-        lastName: "Doe",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-    {
-      id: "3",
-      title: "3 Psychological-Based Marketing Strategy Hacks you need to know",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "Jane",
-        lastName: "Doe",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-    {
-      id: "4",
-      title: "10 best ways to improve your code",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "Jane",
-        lastName: "Foster",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-    {
-      id: "5",
-      title: "UI/UX beginner tooltips every novice designer should know",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "Martha",
-        lastName: "Smith",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-    {
-      id: "6",
-      title: "New ways to implement redux store",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore praesentium facilis sint consequatur eos maxime iusto quod delectus pariatur voluptatem temporibus fugit error perspiciatis corrupti suscipit obcaecati sunt, cupiditate sed. Ipsum, accusamus sunt quam ipsam assumenda ipsa quis fugiat mollitia veniam. Perspiciatis quisquam optio veniam mollitia, porro excepturi sed officia facilis accusantium saepe exercitationem, minima similique reprehenderit.",
-      user: {
-        firstName: "Prof",
-        lastName: "Scott",
-        profileUrl: author,
-      },
-      createdAt: "2024-06-10T11:51:57.607Z",
-      coverImgUrl: chef,
-    },
-  ]);
+  const getPosts = async () => {
+    await getAllPosts(dispatch);
+  };
+  useEffect(() => {
+    getPosts();
+  }, []);
 
-  const filteredPosts = blogList.filter((blog: BlogPost) =>
+  const filteredPosts = posts.filter((blog: BlogPost) =>
     blog.title.toLowerCase().includes(search.toLowerCase())
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [postsPerPage, setPostsPerPage] = useState<number>(4)
+  const [postsPerPage, setPostsPerPage] = useState<number>(4);
   useEffect(() => {
     setCurrentPage(1);
-   
   }, [isListOrientation]);
-  
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -138,10 +68,9 @@ const Home = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-
-    const handleOrientation = () => {
-      setIsListOrientation((prev) => !prev);
-    };
+  const handleOrientation = () => {
+    setIsListOrientation((prev) => !prev);
+  };
 
   return (
     <PageLayout>
@@ -205,11 +134,20 @@ const Home = () => {
             <div
               className={`${
                 !isListOrientation
-                  ? `grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 2xl:grid-cols-4 place-content-center`
+                  ? `grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 2xl:grid-cols-4 place-content-center gap-10`
                   : `flex flex-col gap-4 mt-8`
               } mt-[34px] gap-4`}
             >
-              {currentPosts.length > 0 ? (
+              {isLoading ? (
+                <div className="flex items-center col-span-full flex-col justify-center py-32 bg-gray-200 rounded ">
+                  <div>
+                    <PiSpinnerGapBold className="animate-spin text-6xl" />
+                  </div>
+                  <p className="text-lg text-gray-400 font-semibold">
+                    Fetching Blogs
+                  </p>
+                </div>
+              ) : currentPosts.length > 0 ? (
                 <>
                   {" "}
                   {currentPosts.map((blog: BlogPost) => (
@@ -223,7 +161,7 @@ const Home = () => {
                   ))}
                 </>
               ) : (
-                <div className="flex items-center flex-col justify-center py-32 bg-gray-200 rounded ">
+                <div className="flex items-center col-span-full flex-col justify-center py-32 bg-gray-200 rounded ">
                   <div>
                     <img
                       alt="image"

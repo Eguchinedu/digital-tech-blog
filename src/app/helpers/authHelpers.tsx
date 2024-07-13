@@ -1,18 +1,29 @@
-import { toast } from "react-toastify";
 import { $api } from "../services";
-import { UserAuth } from "../types/blogTypes";
+import { LoginAuth, UserAuth } from "../types/blogTypes";
 import { AppDispatch } from "../store/store";
-import { setUserAccessToken, setUserEmail } from "../store/slices/AuthSlice";
+import {
+  removeEmail,
+  setUserAccessToken,
+  setUserEmail,
+} from "../store/slices/AuthSlice";
+import { toast } from "react-toastify";
 
-export const login = async (data: UserAuth, dispatch: AppDispatch) => {
+export const loginUser = async (data: LoginAuth, dispatch: AppDispatch) => {
   try {
     const response = await $api.post("/auth/login", data);
 
     if ($api.isSuccessful(response)) {
-      toast.success("Logged in successfully");
-      dispatch(setUserAccessToken(response?.data?.accessToken))
+      toast.success(response?.data?.message);
+
+      if (response?.data?.data?.accessToken) {
+        dispatch(setUserAccessToken(response?.data?.data?.accessToken));
+        dispatch(removeEmail());
+      }
+      return response;
     } else {
-      toast.error(response?.message);
+      
+
+      return response;
     }
   } catch (error) {
     console.error(error);
@@ -24,10 +35,16 @@ export const registerUser = async (data: UserAuth, dispatch: AppDispatch) => {
     const response = await $api.post("/auth/register", data);
 
     if ($api.isSuccessful(response)) {
-      toast.success("Registration Successful");
-      dispatch(setUserEmail(data.email))
+      
+
+      dispatch(setUserEmail(data.email));
+    
+
+      toast.success(response?.data?.message);
+      return response;
     } else {
-      toast.error(response?.message);
+    
+      return response;
     }
   } catch (error) {
     console.error(error);

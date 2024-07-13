@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Disclosure,
   DisclosureButton,
@@ -11,52 +12,47 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import userIcon from "../../../../public/img/default-applicant.png";
 import Image from "next/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
-import { selectIsLoggedIn } from "@/app/store/slices/AuthSlice";
+import { clearAuth, selectIsLoggedIn } from "@/app/store/slices/AuthSlice";
 import { toast } from "react-toastify";
 
-
-
-
-
 export default function NavBar() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => selectIsLoggedIn());
+  const [isClient, setIsClient] = useState(false);
+
   const router = useRouter();
   const pathname: string = usePathname();
-  
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <Disclosure
       as="nav"
-      className="bg-indigo-500 border-b-2 fixed top-0 left-0 right-0 z-40"
+      className="bg-indigo-500 border-b-2 fixed top-0 left-0 right-0 z-10"
     >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
-        
-
           <div className="flex flex-1 items-stretch justify-start">
             <div className="flex flex-shrink-0 items-center">
               <Link href="/home" className="cursor-pointer">
                 <img
                   alt="logo"
                   src="https://tailwindui.com/img/logos/mark.svg?color=white&shade="
-                  className="h-8 w-auto "
+                  className="h-8 w-auto"
                 />
               </Link>
             </div>
-            <div className="hidden sm:ml-6 sm:block">
-           
-            </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center gap-4 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-           
-            {isLoggedIn ? (
+            {isClient && isLoggedIn ? (
               <>
                 <Menu as="div" className="relative ml-3">
                   <div>
@@ -67,6 +63,8 @@ export default function NavBar() {
                         alt=""
                         src={userIcon}
                         className="h-8 w-8 rounded-full"
+                        height={32}
+                        width={32}
                       />
                     </MenuButton>
                   </div>
@@ -78,6 +76,17 @@ export default function NavBar() {
                       <a
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                        onClick={() => {
+                          toast.info("Logging out!");
+
+                          setTimeout(() => {
+                            dispatch(clearAuth());
+
+                            if (isLoggedIn) {
+                              toast.success("Logged out Successfully");
+                            }
+                          }, 1500);
+                        }}
                       >
                         Sign out
                       </a>
@@ -107,7 +116,6 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-
     </Disclosure>
   );
 }

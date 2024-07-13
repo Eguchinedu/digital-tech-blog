@@ -29,7 +29,7 @@ const AuthSlice = createSlice({
       state.accessToken = "";
       Cookies.remove("blog_admin_email");
       Cookies.remove("blog_admin_access_token");
-
+        
     },
     removeEmail: (state) => {
       state.email = "";
@@ -48,6 +48,7 @@ export const {
 const AuthReducer = AuthSlice.reducer;
 export default AuthReducer;
 
-export const selectIsLoggedIn = () => {
-  return Cookies.get("blog_admin_access_token") ? true : false;
+export const selectIsLoggedIn = (): boolean => {
+  const token = Cookies.get("blog_admin_access_token");
+  return token !== undefined && token !== null && token.trim() !== "";
 };

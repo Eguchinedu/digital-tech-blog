@@ -1,14 +1,68 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import React from 'react'
-import Image from 'next/image';
-import BgMain from '../../../../public/img/bg-main.jpeg'
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import React, { FormEvent, useState } from "react";
+import Image from "next/image";
+import BgMain from "../../../../public/img/bg-main.jpeg";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginAuth } from "@/app/types/blogTypes";
+import { RootState } from "@/app/store/store";
+import { loginUser } from "@/app/helpers/authHelpers";
+import { validateEmail } from "@/app/helpers/Regex";
+import { toast } from "react-toastify";
+import { LiaInfoCircleSolid } from "react-icons/lia";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { PiSpinnerGapBold } from "react-icons/pi";
+import { $api } from "@/app/services";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const email = useSelector((state: RootState) => state.Auth.email);
+  const [triedToSubmit, setTriedToSubmit] = useState<boolean>(false);
+  const [passwordBlur, setPasswordBlur] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const router = useRouter()
+  const [loginForm, setLoginForm] = useState<LoginAuth>({
+    email: email || "",
+    password: "",
+  });
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { id, value } = e.target;
+    setLoginForm({ ...loginForm, [id]: value });
+  };
+  const isFormValid = () => {
+    return validateEmail(loginForm.email) && loginForm.password;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setTriedToSubmit(true);
+    setIsLoading(true);
+
+    console.log(loginForm);
+    if (isFormValid()) {
+      try {
+        const response = await loginUser(loginForm, dispatch);
+        if ($api.isSuccessful(response)) {
+          router.push("/home");
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
+      } catch (error) {
+        setIsLoading(false);
+      }
+    } else {
+      toast.error("Form Submission error");
+      setIsLoading(false);
+    }
+  };
   return (
     <div className={`bg-white h-screen flex  bg-cover`}>
       <div className="w-1/2 max-[1100px]:hidden relative flex justify-center items-center">
@@ -40,7 +94,7 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -53,11 +107,24 @@ const Login = () => {
                   id="email"
                   name="email"
                   type="email"
-                  required
+                  value={loginForm.email.trim()}
+                  onChange={handleInputChange}
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6 ${
+                    triedToSubmit &&
+                    !validateEmail(loginForm.email) &&
+                    "!border-red-600 !border-2"
+                  }`}
                 />
               </div>
+              {triedToSubmit && !validateEmail(loginForm.email) && (
+                <div className="flex items-center gap-2 mt-2">
+                  <LiaInfoCircleSolid color="#ef4444" />
+                  <h4 className="text-xs text-red-600">
+                    valid email is required!
+                  </h4>
+                </div>
+              )}
             </div>
 
             <div>
@@ -68,27 +135,48 @@ const Login = () => {
                 >
                   Password
                 </label>
-               
               </div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
-                  required
+                  type={passwordBlur ? "password" : "text"}
+                  value={loginForm.password.trim()}
+                  onChange={handleInputChange}
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-lg sm:leading-6 ${
+                    triedToSubmit &&
+                    !loginForm.password &&
+                    "!border-red-600 !border-2"
+                  }`}
                 />
+                <div
+                  className="cursor-pointer absolute bottom-[30%] right-[5%]"
+                  onClick={() => setPasswordBlur(!passwordBlur)}
+                >
+                  {passwordBlur ? <FaRegEyeSlash /> : <FaRegEye />}
+                </div>
               </div>
+              {triedToSubmit && !loginForm.password && (
+                <div className="flex items-center gap-2 mt-2">
+                  <LiaInfoCircleSolid color="#ef4444" />
+                  <h4 className="text-xs text-red-600">
+                    password is required!
+                  </h4>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-center">
               <button
-                type="submit"
-                className="flex w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={() => router.push("/home")}
+                disabled={isLoading}
+                className="flex w-[50%] justify-center rounded-md bg-indigo-600 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-400"
               >
-                Sign in
+                {isLoading ? (
+                  <PiSpinnerGapBold className="animate-spin text-lg" />
+                ) : (
+                  "Sign in"
+                )}
               </button>
             </div>
           </form>
@@ -106,6 +194,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Login
+export default Login;

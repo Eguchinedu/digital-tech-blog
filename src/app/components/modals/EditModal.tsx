@@ -121,7 +121,7 @@ export default function EditModal({ open, setOpen, props }: ModalProps) {
         setOpen(true);
       }
     } else {
-      toast.error("Form Submission error");
+      toast.error("Kindly fill all fields");
       setIsLoading(false);
       setOpen(true);
     }

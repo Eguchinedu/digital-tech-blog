@@ -80,7 +80,7 @@ const Home = () => {
             <div className="flex flex-col items-center justify-center gap-10">
               <div>
                 <h3 className=" text-3xl sm:text-5xl font-semibold text-center text-gray-600">
-                  Welcome to DigiTech Blog
+                  Welcome to Djs Consulting Blog
                 </h3>
               </div>
               <div>
@@ -97,15 +97,7 @@ const Home = () => {
                   />
                 </div>
               </div>
-              <div className="flex items-center flex-col md:flex-row gap-3 font-bold">
-                <span>Topics:</span>
-                <ul className=" grid grid-cols-2 md:grid-cols-4 *:rounded-full *:border *:px-2 gap-2 *:py-2 *:border-white *:bg-gray-200 whitespace-nowrap text-center *w-fit *:cursor-pointer">
-                  <li>Design</li>
-                  <li>Development</li>
-                  <li>Ux Design</li>
-                  <li>Marketing</li>
-                </ul>
-              </div>
+             
             </div>
           </div>
           <div className="py-9 h-full">

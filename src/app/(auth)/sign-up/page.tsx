@@ -98,7 +98,7 @@ const SignUp = () => {
         setIsLoading(false);
       }
     } else {
-      toast.error("Form Submission error");
+      toast.error("Kindly fill all fields");
       setIsLoading(false);
       return;
     }

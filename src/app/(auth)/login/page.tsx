@@ -59,7 +59,7 @@ const Login = () => {
         setIsLoading(false);
       }
     } else {
-      toast.error("Form Submission error");
+      toast.error("Kindly fill all fields");
       setIsLoading(false);
     }
   };
@@ -188,6 +188,13 @@ const Login = () => {
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Sign Up
+            </Link>
+          </p>
+          <p className=" mt-4 cursor-pointer font-semibold leading-6 text-indigo-600 hover:text-indigo-500 text-center text-sm">
+            <Link
+              href="/home"
+            >
+              Back to website
             </Link>
           </p>
         </div>
